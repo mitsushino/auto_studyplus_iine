@@ -30,6 +30,9 @@ def auto_iine():
     # chromeでxpathの動作確認 http://dangerous-animal141.hatenablog.com/entry/2015/02/07/101251
     iine_elements = driver.find_elements_by_xpath("//img[contains(@src, '/images/icon_good.png')]")
     for iine_element in iine_elements:
+        # Element is not clickable at point対処方法 https://javaworld.helpfulness.jp/post-254/
+        # 画面スクロール方法  https://stackoverflow.com/questions/20986631/how-can-i-scroll-a-web-page-using-selenium-webdriver-in-python
+        driver.execute_script("window.scrollTo(0, {});".format(iine_element.location['y']))
         iine_element.click()
 
 
