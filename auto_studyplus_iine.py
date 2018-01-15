@@ -2,17 +2,18 @@
 
 import configparser
 from selenium import webdriver
+import time
 
 
 def get_config_info(file_name, group, item):
-    '''get config file's information'''
+    """get config file's information"""
     config = configparser.ConfigParser()
     config.read(file_name, encoding='utf-8')
     return config[group][item]
 
 
 def auto_iine():
-    '''Click Like! buttons that haven't been clicked'''
+    """Click Like! buttons that haven't been clicked"""
     ini_file = 'config.ini'
     url = get_config_info(ini_file, 'URL', 'url')
     mail = get_config_info(ini_file, 'LOGIN', 'mail')
@@ -23,7 +24,8 @@ def auto_iine():
     username_element.send_keys(mail)
     password_element = driver.find_element_by_name('password')
     password_element.send_keys('')
-    while driver.current_url != url: pass
+    while 'sign_in' in driver.current_url:
+        time.sleep(3)
     print('Login Success')
 
     # srcが特定画像の要素取得方法 http://logic.moo.jp/data/archives/723.html
@@ -34,6 +36,7 @@ def auto_iine():
         # 画面スクロール方法  https://stackoverflow.com/questions/20986631/how-can-i-scroll-a-web-page-using-selenium-webdriver-in-python
         driver.execute_script("window.scrollTo(0, {});".format(iine_element.location['y']))
         iine_element.click()
+    print('Auto click was done.')
 
 
 if __name__ == '__main__':
